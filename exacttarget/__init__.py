@@ -6,7 +6,7 @@ from exacttarget.constants import VALID_TYPE_URL
 
 
 __author__ = 'Arthur Rio'
-__version__ = (0, 0, 4, 'beta')
+__version__ = (0, 0, 5, 'beta')
 
 
 # Setup default logging.
