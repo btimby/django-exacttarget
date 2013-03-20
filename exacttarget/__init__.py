@@ -28,8 +28,8 @@ class ExacttargetTypes(object):
     def __init__(self):
         # Instanciates the types from the wsdl
         self.valid_types = []
-for valid_type in client.sd[0].types:
-    self.valid_types.append(valid_type[0].name)
+        for valid_type in client.sd[0].types:
+            self.valid_types.append(valid_type[0].name)
     def __getattribute__(self, name):
         try:
             ret = super(ExacttargetTypes, self).__getattribute__(name)
