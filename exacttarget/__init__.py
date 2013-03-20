@@ -2,7 +2,6 @@ import logging
 from suds.client import Client
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
-from exacttarget.constants import VALID_TYPE_URL
 
 
 __author__ = 'Arthur Rio'
@@ -29,9 +28,8 @@ class ExacttargetTypes(object):
     def __init__(self):
         # Instanciates the types from the wsdl
         self.valid_types = []
-        for s in client.wsdl.types[0].schema().elements:
-            if VALID_TYPE_URL == s[1]:
-                self.valid_types.append(s[0])
+        for valid_type in client.sd[0].types:
+            self.valid_types.append(valid_type[0].name)
     def __getattribute__(self, name):
         try:
             ret = super(ExacttargetTypes, self).__getattribute__(name)
