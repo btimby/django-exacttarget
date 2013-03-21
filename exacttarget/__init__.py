@@ -5,7 +5,7 @@ from django.core.exceptions import ImproperlyConfigured
 
 
 __author__ = 'Arthur Rio'
-__version__ = (0, 0, 7, 'beta')
+__version__ = (0, 0, 8, 'beta')
 
 
 # Setup default logging.
@@ -18,9 +18,6 @@ log.addHandler(stream)
 if not hasattr(settings, 'EXACTTARGET_SOAP_WSDL_URL'):
     raise ImproperlyConfigured('The EXACTTARGET_SOAP_WSDL_URL setting is required.')
 
-# load the wsdl file
-client = Client(settings.EXACTTARGET_SOAP_WSDL_URL)
-
 class ExacttargetTypes(object):
     '''
     Utility class to create objects from the server only once and then use a copy instead.
@@ -28,7 +25,8 @@ class ExacttargetTypes(object):
     def __init__(self):
         # Instanciates the types from the wsdl
         self.valid_types = []
-        for valid_type in client.sd[0].types:
+        self.client = Client(settings.EXACTTARGET_SOAP_WSDL_URL)
+        for valid_type in self.client.sd[0].types:
             self.valid_types.append(valid_type[0].name)
     def __getattribute__(self, name):
         try:
@@ -36,7 +34,7 @@ class ExacttargetTypes(object):
         except AttributeError as e:
             if name in self.valid_types:
                 # Creates the first instance of the Type onlt once
-                ret = client.factory.create(name)
+                ret = self.client.factory.create(name)
                 self.__setattr__(name, ret)
             else:
                 raise e

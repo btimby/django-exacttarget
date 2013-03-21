@@ -1,4 +1,5 @@
 from suds.sax.element import Element
+from suds.client import Client
 from suds.wsse import Security, UsernameToken
 from exacttarget import client, constants
 
@@ -11,7 +12,9 @@ class PartnerAPI(object):
         internal_oauth_token
     """
     def __init__(self, internal_oauth_token):
-        self.client = client.clone()
+        # TODO use a clone instead of creating a client everytime
+        # self.client = client.clone() ==> not working properly in suds==0.4
+        self.client = Client(settings.EXACTTARGET_SOAP_WSDL_URL)
         # Add the default Security in the header
         security = Security()
         token = UsernameToken('*', '*')
