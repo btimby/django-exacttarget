@@ -7,7 +7,7 @@ Uses the [oauth authentication](https://code.exacttarget.com/devcenter/getting-s
 REQUIREMENTS
 ============
 
-Python 2.6+  
+Python 2.7+  
 Django 1.3+
 
 INSTALLATION
