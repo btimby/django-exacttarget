@@ -1,7 +1,8 @@
-from suds.sax.element import Element
+from django.conf import settings
+from exacttarget import constants
 from suds.client import Client
+from suds.sax.element import Element
 from suds.wsse import Security, UsernameToken
-from exacttarget import client, constants
 
 class PartnerAPI(object):
     """
