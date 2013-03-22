@@ -13,8 +13,6 @@ class PartnerAPI(object):
         internal_oauth_token
     """
     def __init__(self, internal_oauth_token):
-        # TODO use a clone instead of creating a client everytime
-        # self.client = client.clone() ==> not working properly in suds==0.4
         self.client = Client(settings.EXACTTARGET_SOAP_WSDL_URL)
         # Add the default Security in the header
         security = Security()
@@ -23,11 +21,22 @@ class PartnerAPI(object):
         self.client.set_options(wsse=security)
         # Add oAuth token to SOAP header.
         ns = (None, constants.OAUTH_HEADER_URL)
-        oauth_header = Element("oAuth", ns=ns);
+        oauth_header = Element("oAuth", ns=ns)
         oauth_element = Element("oAuthToken")
         oauth_element.setText(internal_oauth_token)
-        oauth_header.append(oauth_element);
+        oauth_header.append(oauth_element)
         self.client.set_options(soapheaders=oauth_header)
+
+        # Make easy the access to the types
+        for valid_type in self.client.sd[0].types:
+            self.valid_types.append(valid_type[0].name)
+
+    def __getattribute__(self, name):
+        if name != 'valid_types' and name in self.valid_types:
+            # if the attribute is one of the Types
+            return self.client.factory.create(name)
+        else:
+            return super(PartnerAPI, self).__getattribute__(name)
 
     def create(self, options, api_objects, request_id=None, overall_status=None):
         """
