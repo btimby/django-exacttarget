@@ -28,6 +28,7 @@ class PartnerAPI(object):
         self.client.set_options(soapheaders=oauth_header)
 
         # Make easy the access to the types
+        self.valid_types = []
         for valid_type in self.client.sd[0].types:
             self.valid_types.append(valid_type[0].name)
 
