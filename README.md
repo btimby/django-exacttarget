@@ -54,11 +54,12 @@ You can call any of the methods using the python syntax (i.e. ```VersionInfo()``
 
 You can create an object of any type defined in the wsdl as follow:
 ```python
-from exacttarget import types
+from exacttarget import client
+api = client.PartnerAPI(internal_oauth_token)
 # Standard object
-list = types.List
+list = api.List
 # Enum object
-list.Type = types.ListTypeEnum.Private
+list.Type = api.ListTypeEnum.Private
 ```
 
 EXAMPLES
@@ -67,17 +68,17 @@ EXAMPLES
 #Create a list
 
 ```python
-from exacttarget import types, client
+from exacttarget import client
 
 api = client.PartnerAPI(internal_oauth_token)
-new_list = types.List
+new_list = api.List
 new_list.Description = "My description"
 new_list.ListName = "My list name"
-new_list.Type = types.ListTypeEnum.Private
-new_list.ListClassification = types.ListClassificationEnum.ExactTargetList
-co = types.CreateOptions
-co.RequestType = types.RequestType.Synchronous
-co.QueuePriority = types.Priority.Low
+new_list.Type = api.ListTypeEnum.Private
+new_list.ListClassification = api.ListClassificationEnum.ExactTargetList
+co = api.CreateOptions
+co.RequestType = api.RequestType.Synchronous
+co.QueuePriority = api.Priority.Low
 
 resp = api.create(co, [new_list])
 
