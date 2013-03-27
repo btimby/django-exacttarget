@@ -4,7 +4,7 @@ from setuptools import find_packages
 
 setup(
     name='django-exacttarget',
-    version='0.0.8-beta',
+    version='0.0.9-beta',
     author=u'Arthur Rio',
     author_email='arthur@punchtab.com',
     packages=find_packages(),

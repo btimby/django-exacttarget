@@ -4,7 +4,7 @@ from django.core.exceptions import ImproperlyConfigured
 
 
 __author__ = 'Arthur Rio'
-__version__ = (0, 0, 8, 'beta')
+__version__ = (0, 0, 9, 'beta')
 
 
 # Setup default logging.
