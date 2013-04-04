@@ -47,12 +47,15 @@ class PartnerAPI(object):
     def get_system_status(self, options=None, overall_status=None, overall_status_message=None, request_id=None):
         """
         """
-        return self.client.service.GetSystemStatus(options, overall_status, overall_status_message, request_id)
+        return self.client.service.GetSystemStatus(options, overall_status,
+                overall_status_message, request_id)
 
-    def configure(self, options, action, configuration):
+    def configure(self, options, action, configurations,
+            overall_status=None, overall_status_message=None, request_id=None):
         """
         """
-        return self.client.service.Configure(options, action, configuration)
+        return self.client.service.Configure(options, action, configurations,
+                overall_status, overall_status_message, request_id)
 
     def delete(self, options, api_objects):
         """
@@ -103,3 +106,4 @@ class PartnerAPI(object):
         """
         """
         return self.client.service.VersionInfo(include_version_history)
+
