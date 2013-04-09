@@ -4,10 +4,11 @@ from suds.client import Client
 from suds.sax.element import Element
 from suds.wsse import Security, UsernameToken
 
+import urllib2
+
 class PartnerAPI(object):
     """
-    Interface of the SOAP Api reusing the client that has the wsdl file
-    already loaded.
+    Interface of the ExactTarget SOAP Api.
 
     Attributes:
         internal_oauth_token
@@ -107,3 +108,30 @@ class PartnerAPI(object):
         """
         return self.client.service.VersionInfo(include_version_history)
 
+class RestAPI(object):
+    """
+    Interface of the ExactTarget REST Api.
+
+    Attributes:
+        client_id
+        client_secret
+    """
+
+    def __init__(self, client_id, client_secret):
+        self.client_id = client_id
+        self.client_secret = client_secret
+
+    def request_token(self, legacy=0, scope=None, access_type=None, refresh_token=None):
+        url = '%srequestToken?legacy=%d' % (constants.REST_API_BASE_URL, legacy)
+        data = {
+                'clientId': self.client_id,
+                'clientSecret': self.client_secret,
+                'scope': scope,
+                'legacy': legacy,
+                'accessType': access_type,
+                'refreshToken': refresh_token
+                }
+        return urllib2.urlopen(url, data)
+
+    def refresh_token(self, token, legacy=0, scope=None):
+        return self.request_token(legacy, scope, 'offline', token)
