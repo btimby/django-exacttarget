@@ -4,6 +4,7 @@ from suds.client import Client
 from suds.sax.element import Element
 from suds.wsse import Security, UsernameToken
 
+import urllib
 import urllib2
 
 class PartnerAPI(object):
@@ -131,7 +132,7 @@ class RestAPI(object):
                 'accessType': access_type,
                 'refreshToken': refresh_token
                 }
-        return urllib2.urlopen(url, data)
+        return urllib2.urlopen(url, urllib.urlencode(data))
 
     def refresh_token(self, token, legacy=0, scope=None):
         return self.request_token(legacy, scope, 'offline', token)
