@@ -16,3 +16,6 @@ log.addHandler(stream)
 if not hasattr(settings, 'EXACTTARGET_SOAP_WSDL_URL'):
     raise ImproperlyConfigured('The EXACTTARGET_SOAP_WSDL_URL setting is required.')
 
+if not hasattr(settings, 'EXACTTARGET_APP_SIGNATURE'):
+    raise ImproperlyConfigured('The EXACTTARGET_APP_SIGNATURE setting is required.')
+
