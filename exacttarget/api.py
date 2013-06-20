@@ -20,12 +20,12 @@ class PartnerAPI(object):
     """
     def __init__(self, internal_oauth_token, url=None):
         self.client = Client(settings.EXACTTARGET_SOAP_WSDL_URL)
-        if url:
-            self.client.set_options(location=url)
         # Make easy the access to the types
         self.valid_types = []
         for valid_type in self.client.sd[0].types:
             self.valid_types.append(valid_type[0].name)
+        if url:
+            self.client.set_options(location=url)
         # Add the default Security in the header
         security = Security()
         token = UsernameToken('*', '*')
