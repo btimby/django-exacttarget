@@ -34,17 +34,17 @@ class ExactTarget(models.Model):
     def get_url(self):
         return 'https://webservice.%s.exacttarget.com/Service.asmx' % self.stackKey
 
-    def get_token(self, force=False):
-        if force or time.time() + 300 > self.expiration:
+    def get_token(self, refresh=False):
+        if refresh or time.time() + 300 > self.expiration:
             p = {
                 'clientId' : settings.EXACTTARGET_CLIENT_ID,
                 'clientSecret' : settings.EXACTTARGET_CLIENT_SECRET,
                 'refreshToken' : self.refreshToken,
                 'accessType': 'offline',
-                'scope':'cas:'+ self.internalAuthToken,
+                'scope':'cas:'+ self.internalOauthToken,
             }
             r = requests.post(TOKEN_REFRESH_URL,
-                              data=json.dumps(payload),
+                              data=json.dumps(p),
                               headers={'content-type': 'application/json'}).json()
             self.oauthToken = r['accessToken']
             self.expiration = time.time() + r['expiresIn']
