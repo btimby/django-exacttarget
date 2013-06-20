@@ -37,8 +37,8 @@ class ExactTarget(models.Model):
     def get_token(self, force=False):
         if force or time.time() + 300 > self.expiration:
             p = {
-                'clientId' : self.client_id,
-                'clientSecret' : self.client_secret,
+                'clientId' : settings.EXACTTARGET_CLIENT_ID,
+                'clientSecret' : settings.EXACTTARGET_CLIENT_SECRET,
                 'refreshToken' : self.refreshToken,
                 'accessType': 'offline',
                 'scope':'cas:'+ self.internalAuthToken,
