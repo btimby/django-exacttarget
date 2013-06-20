@@ -7,6 +7,10 @@ from suds.wsse import Security, UsernameToken
 import urllib
 import urllib2
 
+
+TOKEN_REFRESH_URL = 'https://auth.exacttargetapis.com/v1/requestToken?legacy=1'
+
+
 class PartnerAPI(object):
     """
     Interface of the ExactTarget SOAP Api.
@@ -14,8 +18,10 @@ class PartnerAPI(object):
     Attributes:
         internal_oauth_token
     """
-    def __init__(self, internal_oauth_token):
+    def __init__(self, internal_oauth_token, url=None):
         self.client = Client(settings.EXACTTARGET_SOAP_WSDL_URL)
+        if url:
+            self.client.set_options(location=url)
         # Make easy the access to the types
         self.valid_types = []
         for valid_type in self.client.sd[0].types:
@@ -32,7 +38,6 @@ class PartnerAPI(object):
         oauth_element.setText(internal_oauth_token)
         oauth_header.append(oauth_element)
         self.client.set_options(soapheaders=oauth_header)
-
 
     def __getattribute__(self, name):
         if name != 'valid_types' and name in self.valid_types:

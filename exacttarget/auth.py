@@ -1,4 +1,5 @@
 import jwt
+import time
 
 from django.conf import settings
 from django.core.exceptions import PermissionDenied
@@ -46,7 +47,9 @@ class ExactTargetBackend(object):
         ExactTarget.objects.create(user,
                                    oauthToken=user_info['oauthToken'],
                                    internalOauthToken=user_info['internalOauthToken'],
-                                   refreshToken=user_info['refreshToken'])
+                                   refreshToken=user_info['refreshToken'],
+                                   stackKey=info['request']['organization']['stackKey'],
+                                   expiration=time.time()+user_info['expiresIn'])
         return user
 
     def get_user(self, user_id):
