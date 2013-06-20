@@ -39,7 +39,7 @@ class PartnerAPI(object):
         oauth_header.append(oauth_element)
         self.client.set_options(soapheaders=oauth_header)
 
-    def __getattribute__(self, name):
+    def __getattr__(self, name):
         if name != 'valid_types' and name in self.valid_types:
             # if the attribute is one of the Types
             return self.client.factory.create(name)
