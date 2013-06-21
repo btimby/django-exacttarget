@@ -32,7 +32,10 @@ class ExactTarget(models.Model):
     objects = ExactTargetManager()
 
     def get_url(self):
-        return 'https://webservice.%s.exacttarget.com/Service.asmx' % self.stackKey
+        hostname = 'webservice.'
+        if self.stackKey.lower() != 's1':
+            hostname += self.stackKey + '.'
+        return 'https://%sexacttarget.com/Service.asmx' % hostname
 
     def get_token(self, refresh=False):
         if refresh or time.time() + 300 > self.expiration:
