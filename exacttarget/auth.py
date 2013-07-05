@@ -37,11 +37,11 @@ class ExactTargetBackend(object):
         user_info = info['request']['user']
         # We have the user info, let's locate or create them!
         try:
-            user = UserModel.objects.get(email=user_info['email'])
+            user = UserModel.objects.get(id=user_info['id'])
         except KeyError:
             raise PermissionDenied('Invalid JWT: missing email')
         except UserModel.DoesNotExist:
-            user = UserModel.objects.create_user(user_info['email'])
+            user = UserModel.objects.create_user(user_info['id'], email=user_info['email'])
             user.set_unusable_password()
         # OAuth tokens need refreshed on each login.
         ExactTarget.objects.create(user,
