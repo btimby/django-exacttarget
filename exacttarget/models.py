@@ -24,8 +24,8 @@ class ExactTargetManager(models.Manager):
 class ExactTarget(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL)
     oauthToken = models.CharField(max_length=128, null=True)
-    internalOauthToken = models.CharField(max_length=128, null=True)
-    refreshToken = models.CharField(max_length=128, null=True)
+    internalOauthToken = models.CharField(max_length=256, null=True)
+    refreshToken = models.CharField(max_length=256, null=True)
     expiration = models.IntegerField()
     stackKey = models.CharField(max_length=2)
 
